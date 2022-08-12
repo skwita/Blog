@@ -1,6 +1,6 @@
 package com.skwita.Blog.controller;
 
-import com.skwita.Blog.repository.PostRepository;
+import com.skwita.Blog.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,16 +8,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController {
-    PostRepository postRepository;
+    PostService postService;
 
     @Autowired
-    public HomeController (PostRepository postRepository) {
-        this.postRepository = postRepository;
+    public HomeController (PostService postService) {
+        this.postService = postService;
     }
 
     @GetMapping("/")
     public String home(Model model){
-        model.addAttribute("posts", postRepository.findAllByOrderById());
+        model.addAttribute("posts", postService.getAllPosts());
         return "home";
     }
 }

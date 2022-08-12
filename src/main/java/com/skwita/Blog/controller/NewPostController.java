@@ -1,8 +1,8 @@
 package com.skwita.Blog.controller;
 
 import com.skwita.Blog.entity.Post;
-import com.skwita.Blog.repository.PostRepository;
-import com.skwita.Blog.repository.UserRepository;
+import com.skwita.Blog.service.PostService;
+import com.skwita.Blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
@@ -16,13 +16,13 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/new")
 public class NewPostController {
-    PostRepository postRepository;
-    UserRepository userRepository;
+    PostService postService;
+    UserService userService;
 
     @Autowired
-    public NewPostController(PostRepository postRepository, UserRepository userRepository) {
-        this.postRepository = postRepository;
-        this.userRepository = userRepository;
+    public NewPostController(PostService postService, UserService userService) {
+        this.postService = postService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -35,8 +35,8 @@ public class NewPostController {
         if (errors.hasErrors()){
             return "createPost";
         }
-        post.setUser(userRepository.findByUsername("skwita"));
-        postRepository.save(post);
+        post.setUser(userService.findByUsername("skwita"));
+        postService.savePost(post);
         return "redirect:/";
     }
 }

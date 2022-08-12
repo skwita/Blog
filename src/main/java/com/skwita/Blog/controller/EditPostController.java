@@ -1,8 +1,7 @@
 package com.skwita.Blog.controller;
 
 import com.skwita.Blog.entity.Post;
-import com.skwita.Blog.repository.PostRepository;
-import com.skwita.Blog.repository.UserRepository;
+import com.skwita.Blog.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,19 +13,17 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/edit")
 public class EditPostController {
-    PostRepository postRepository;
-    UserRepository userRepository;
+    PostService postService;
 
     @Autowired
-    public EditPostController(PostRepository postRepository, UserRepository userRepository) {
-        this.postRepository = postRepository;
-        this.userRepository = userRepository;
+    public EditPostController(PostService postService) {
+        this.postService = postService;
     }
 
     @GetMapping("/{id}")
     public String editPost(@PathVariable("id") long id,
                          Model model) {
-        model.addAttribute("post", postRepository.getPostById(id));
+        model.addAttribute("post", postService.getPostById(id));
         return "editPost";
     }
 
@@ -35,7 +32,7 @@ public class EditPostController {
         if (errors.hasErrors()) {
             return "editPost";
         }
-        postRepository.save(post);
+        postService.savePost(post);
         return "redirect:/";
     }
 }
