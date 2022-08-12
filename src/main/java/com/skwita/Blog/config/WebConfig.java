@@ -49,7 +49,7 @@ public class WebConfig implements WebMvcConfigurer {
         if (userRepository.findByUsername("admin") == null) {
             userRepository.save(
                     new User("admin",
-                            passwordEncoder.encode("superAdmin123"),
+                            "$2a$10$hLS/p22TF.ufdW4WLVUa0eAdxsbCM6qT2eL1AmiOHBmT.ByQJq3eW",
                             Set.of(
                                     new Role(1L, "ROLE_ADMIN"),
                                     new Role(2L, "ROLE_USER")
