@@ -1,9 +1,11 @@
 package com.skwita.Blog.controller;
 
 import com.skwita.Blog.entity.Post;
+import com.skwita.Blog.entity.User;
 import com.skwita.Blog.service.PostService;
 import com.skwita.Blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,11 +33,13 @@ public class NewPostController {
     }
 
     @PostMapping
-    public String newPostDone(@ModelAttribute("post") @Valid Post post, Errors errors){
+    public String newPostDone(@ModelAttribute("post") @Valid Post post,
+                              Errors errors,
+                              @AuthenticationPrincipal User user){
         if (errors.hasErrors()){
             return "createPost";
         }
-        post.setUser(userService.findByUsername("skwita"));
+        post.setUser(user);
         postService.savePost(post);
         return "redirect:/";
     }

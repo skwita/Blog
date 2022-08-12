@@ -35,8 +35,10 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Bean
     public CommandLineRunner loadRoles() {
-        if (roleRepository.count() == 1) {
+        if (roleRepository.findRoleByName("ROLE_ADMIN") == null) {
             roleRepository.save(new Role(1L, "ROLE_ADMIN"));
+        }
+        if (roleRepository.findRoleByName("ROLE_USER") == null) {
             roleRepository.save(new Role(2L, "ROLE_USER"));
         }
         return null;
@@ -44,7 +46,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Bean
     public CommandLineRunner loadAdmin() {
-        if (userRepository.count() == 0) {
+        if (userRepository.findByUsername("admin") == null) {
             userRepository.save(
                     new User("admin",
                             passwordEncoder.encode("superAdmin123"),

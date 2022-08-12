@@ -8,10 +8,10 @@
 </head>
 <body>
 <div class="header">
-  <a th:if="${user==null}" th:href="@{/login}">Sign in</a>
-  <a th:if="${user==null}" th:href="@{/register}">Sign up</a>
-  <p th:if="${user!=null}" th:text="${user.getUsername()}"></p>
-  <form th:if="${user!=null}" th:action="@{/logout}" th:method="POST">
+  <a th:if="${user == null}" th:href="@{/login}">Sign in</a>
+  <a th:if="${user == null}" th:href="@{/register}">Sign up</a>
+  <p th:if="${user != null}" th:text="${user.getUsername()}"></p>
+  <form th:if="${user != null}" th:action="@{/logout}" th:method="POST">
     <input type="submit" value="logout">
   </form>
 </div>
@@ -20,16 +20,16 @@
     <p th:text="${post.getTitle()}">TITLE</p>
     <p th:text="${post.getText()}">TEXT</p>
     <p th:text="${post.getUser().getUsername()}">USER</p>
-    <form th:action="@{/edit/{id}(id=*{post.getId()})}" th:method="GET">
+    <form th:if="${user != null && post.getUser().getId() == user.getId()}" th:action="@{/edit/{id}(id=*{post.getId()})}" th:method="GET">
       <input type="submit" value="Edit post">
     </form>
-    <form th:action="@{/delete/{id}(id=*{post.getId()})}" th:method="DELETE">
+    <form th:if="${user != null && post.getUser().getId()==user.getId()}" th:action="@{/delete/{id}(id=*{post.getId()})}" th:method="DELETE">
       <input type="submit" value="Delete post">
     </form>
   </div>
 </div>
 <div class="postCreation">
-  <form th:action="@{/new}" th:method="GET">
+  <form th:if="${user != null}" th:action="@{/new}" th:method="GET">
     <input type="submit" value="New Post">
   </form>
 </div>
