@@ -20,13 +20,13 @@ public class Post {
     private long id;
     @NotNull
     @NotEmpty(message = "Title must not be empty")
-    @Size(max=30, message = "Title must must not be more than 30 characters long")
+    @Size(max=30, message = "Title must not be more than 30 characters long")
     private String title;
     @NotNull
     @NotEmpty(message = "Text must not be empty")
     @Size(max=300, message="Text must not be more than 300 characters long")
     private String text;
-    @NotNull
+    //@NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 

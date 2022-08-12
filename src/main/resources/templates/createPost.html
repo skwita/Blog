@@ -10,9 +10,11 @@
 <form th:action="@{/new}" th:method="POST" th:object="${post}">
     <label for="title">Enter title</label>
     <input type="text" th:field="*{title}" id="title">
+    <p style="color: red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
     <br>
     <label for="text">Enter text</label>
     <input type="text" th:field="*{text}" id="text">
+    <p style="color: red" th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></p>
     <br>
     <input type="submit" value="Create Post">
 </form>

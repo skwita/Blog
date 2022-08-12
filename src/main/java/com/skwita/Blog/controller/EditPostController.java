@@ -6,7 +6,10 @@ import com.skwita.Blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/edit")
@@ -28,7 +31,10 @@ public class EditPostController {
     }
 
     @PatchMapping("/{id}")
-    public String editPostDone(@ModelAttribute("post") Post post) {
+    public String editPostDone(@ModelAttribute("post") @Valid Post post, Errors errors) {
+        if (errors.hasErrors()) {
+            return "editPost";
+        }
         postRepository.save(post);
         return "redirect:/";
     }
