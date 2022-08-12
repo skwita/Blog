@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog</title>
+</head>
+<body>
+<div class="header">
+  <a href="">Sign in</a>
+  <a href="">Sign up</a>
+</div>
+<div class="postsContainer">
+  <div class="post" th:each="post:${posts}">
+    <p th:text="${post.getTitle()}">TITLE</p>
+    <p th:text="${post.getText()}">TEXT</p>
+    <p th:text="${post.getUser()}">USER</p>
+  </div>
+</div>
+<div class="postCreation">
+  <form th:action="@{/new}" th:method="GET">
+    <input type="submit" value="New Post">
+  </form>
+</div>
+</body>
+</html>
