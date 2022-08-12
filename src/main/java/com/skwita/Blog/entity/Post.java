@@ -35,4 +35,8 @@ public class Post {
         this.text = text;
         this.user = user;
     }
+
+    public long getId() {
+        return id;
+    }
 }

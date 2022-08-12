@@ -17,7 +17,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model){
-        model.addAttribute("posts", postRepository.findAll());
+        model.addAttribute("posts", postRepository.findAllByOrderById());
         return "home";
     }
 }

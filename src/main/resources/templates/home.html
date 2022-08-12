@@ -16,6 +16,12 @@
     <p th:text="${post.getTitle()}">TITLE</p>
     <p th:text="${post.getText()}">TEXT</p>
     <p th:text="${post.getUser()}">USER</p>
+    <form th:action="@{/edit/{id}(id=*{post.getId()})}" th:method="GET">
+      <input type="submit" value="Edit post">
+    </form>
+    <form th:action="@{/delete/{id}(id=*{post.getId()})}" th:method="DELETE">
+      <input type="submit" value="Delete post">
+    </form>
   </div>
 </div>
 <div class="postCreation">
