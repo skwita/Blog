@@ -24,6 +24,9 @@ public class SecurityConfig {
                 .loginPage("/login")
                 .defaultSuccessUrl("/")
                 .and()
+                .logout()
+                .logoutSuccessUrl("/")
+                .and()
                 .build();
     }
 }
