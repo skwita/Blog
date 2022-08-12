@@ -5,14 +5,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Blog</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
 <body>
 <div class="header">
-  <a th:if="${user == null}" th:href="@{/login}">Sign in</a>
-  <a th:if="${user == null}" th:href="@{/register}">Sign up</a>
-  <p th:if="${user != null}" th:text="${user.getUsername()}"></p>
+  <a class="authThing" th:if="${user == null}" th:href="@{/login}">Sign in</a>
+  <a class="authThing" th:if="${user == null}" th:href="@{/register}">Sign up</a>
+  <p class="authThing" th:if="${user != null}" th:text="${user.getUsername()}"></p>
   <form th:if="${user != null}" th:action="@{/logout}" th:method="POST">
-    <input type="submit" value="logout">
+    <input class="authThing"  type="submit" value="logout">
   </form>
 </div>
 <div class="postsContainer">

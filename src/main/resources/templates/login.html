@@ -5,21 +5,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/loginRegister.css}">
 </head>
 <body>
-<h1>Login</h1>
-<div th:if="${error}">
-    Unable to login. Check your username and password.
+<div class="login-page">
+    <div class="form">
+        <form class="login-form" method="POST" th:action="@{/login}">
+            <input type="text" placeholder="username" name="username" id="username"/>
+            <input type="password" placeholder="password" name="password" id="password"/>
+            <p class="errors" th:if="${param.error}">Invalid username or password</p>
+            <button type="submit">login</button>
+            <p class="message">Not registered? <a th:href="@{/register}">Create an account</a></p>
+        </form>
+    </div>
 </div>
-<p>New here? Click <a th:href="@{/register}"> here</a> to register.</p>
-<form method="POST" th:action="@{/login}">
-    <label for="username">Username: </label>
-    <input type="text" name="username" id="username" />
-    <br/>
-    <label for="password">Password: </label>
-    <input type="password" name="password" id="password" />
-    <br/>
-    <input type="submit" value="Log in"/>
-</form>
 </body>
 </html>

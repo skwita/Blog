@@ -23,7 +23,8 @@ public class User implements UserDetails {
     private Long id;
     @Size(min=5, max=30, message = "Username length must be more than 5 characters and less than 30 characters and  long")
     private String username;
-    @Size(min=10, message = "Password must be at least than 10 characters long")
+
+    @Size(min=8, message = "Password must be at least than 8 characters long")
     private String password;
     @Transient
     private String passwordConfirm;

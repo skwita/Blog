@@ -5,19 +5,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Registration</title>
+  <link rel="stylesheet" th:href="@{/css/loginRegister.css}">
 </head>
 <body>
-<h1>Register</h1>
-<form th:action="@{/register}" th:method="POST" th:object="${user}">
-  <label for="username">Enter username</label>
-  <input type="text" name="username" id="username" th:field="*{username}">
-  <br>
-  <label for="password">Enter password</label>
-  <input type="password" name="password" id="password" th:field="*{password}">
-  <br>
-  <label for="confirm">Confirm your password</label>
-  <input type="password" name="confirm" id="confirm" th:field="*{passwordConfirm}">
-  <input type="submit" value="register">
-</form>
+<div class="login-page">
+  <div class="form">
+    <form class="login-form" th:action="@{/register}" th:method="POST" th:object="${user}">
+      <input type="text" name="username" id="username" th:field="*{username}" placeholder="username">
+      <input type="password" name="password" id="password" th:field="*{password}" placeholder="password">
+      <input type="password" name="confirm" id="confirm" th:field="*{passwordConfirm}" placeholder="confirm password">
+      <p class="errors" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+      <p class="errors" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+      <p class="errors" th:if="${usernameTaken}">Unable to register. Username is already taken.</p>
+      <p class="errors" th:if="${passwordNotMatchError}">Unable to register. Passwords do not match.</p>
+      <button type="submit">register</button>
+    </form>
+  </div>
+</div>
 </body>
 </html>
