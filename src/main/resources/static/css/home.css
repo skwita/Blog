@@ -1,17 +1,110 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,700);
 * {
     margin: 0;
     padding: 0;
     border: 0;
 }
 
+body {
+    zoom: 125%;
+}
+
 .header {
-    height: 35px;
+    height: 55px;
+    width: 100%;
     display: flex;
+    position: fixed;
+    padding-left: 15px;
+    padding-right: 5px;
     align-items: center;
-    justify-content: flex-end;
-    background-color: rgb(141,194,111);;
+    justify-content: space-between;
+    background-color: #77b856;
+}
+
+.postsContainer {
+    padding-top: 55px;
 }
 
 .authThing {
+    align-self: center;
     margin: 3px;
+    text-decoration: none;
+}
+
+.post {
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.title {
+    font-weight: bold;
+    font-size: 1.5em;
+    line-height: 1em;
+}
+
+.author {
+    font-weight: 300;
+    color: #4d4d4d;
+    font-size: 0.7em;
+}
+
+.text {
+    font-weight: 300;
+}
+
+.field {
+    margin: 5px;
+    font-family: "Roboto", sans-serif;
+}
+
+.buttons {
+    display: flex;
+    margin: 5px 15px 5px 5px;
+}
+
+.button {
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 5px 10px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+    border-radius: 3px;
+    box-shadow: 0 3px 14px rgba(50,50,93,.1);
+    transition: all 0.1s linear;
+    font-size: 12px;
+    outline: none;
+    color: white;
+    background-color: #4CAF50;
+}
+
+.button:hover {
+     background: #43A047;
+     box-shadow: 0 7px 14px rgba(50,50,93,.1), 0 3px 6px rgba(0,0,0,.08);
+ }
+
+.button:active {
+     background: #4CAF50;
+ }
+
+.username {
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    color: white;
+}
+
+.blogName {
+    text-transform: uppercase;
+    color: white;
+    font-family: "Roboto", sans-serif;
+}
+
+.postCreation {
+    margin: 10px 15px;
+    display: flex;
+    justify-content: center;
 }
