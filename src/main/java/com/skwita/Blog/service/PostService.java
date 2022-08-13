@@ -26,4 +26,8 @@ public class PostService {
     public Iterable<Post> getAllPosts() {
         return postRepository.findAllByOrderById();
     }
+
+    public void deletePostById(long id) {
+        postRepository.deleteById(id);
+    }
 }
