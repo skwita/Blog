@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -73,5 +74,11 @@ public class User implements UserDetails {
                 ", passwordConfirm='" + passwordConfirm + '\'' +
                 ", roles=" + roles +
                 '}';
+    }
+
+    public Set<String> getRolesNames() {
+        return roles.stream()
+                .map(Role::getName)
+                .collect(Collectors.toSet());
     }
 }

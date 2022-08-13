@@ -1,8 +1,10 @@
 package com.skwita.Blog.controller;
 
 import com.skwita.Blog.entity.Post;
+import com.skwita.Blog.entity.User;
 import com.skwita.Blog.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -22,7 +24,9 @@ public class EditPostController {
 
     @GetMapping("/{id}")
     public String editPost(@PathVariable("id") long id,
-                         Model model) {
+                           Model model,
+                           @AuthenticationPrincipal User user){
+        model.addAttribute("user", user);
         model.addAttribute("post", postService.getPostById(id));
         return "editPost";
     }

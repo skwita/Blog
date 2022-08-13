@@ -30,4 +30,8 @@ public class PostService {
     public void deletePostById(long id) {
         postRepository.deleteById(id);
     }
+
+    public Iterable<Post> findAll() {
+        return postRepository.findAll();
+    }
 }

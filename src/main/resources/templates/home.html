@@ -11,7 +11,9 @@
 
 <div class="header">
   <div>
-    <h1 class="blogName">Skwita Blog</h1>
+    <h1>
+      <a th:href="@{/}" class="blogName">Skwita Blog</a>
+    </h1>
   </div>
   <div class="buttons">
     <a class="authThing button" th:if="${user == null}" th:href="@{/login}">Sign in</a>

@@ -5,18 +5,45 @@
 <head>
     <meta charset="UTF-8">
     <title>New Post</title>
+    <link rel="stylesheet" th:href="@{/css/createEdit.css}">
 </head>
 <body>
-<form th:action="@{/new}" th:method="POST" th:object="${post}">
-    <label for="title">Enter title</label>
-    <input type="text" th:field="*{title}" id="title">
-    <p style="color: red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
-    <br>
-    <label for="text">Enter text</label>
-    <input type="text" th:field="*{text}" id="text">
-    <p style="color: red" th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></p>
-    <br>
-    <input type="submit" value="Create Post">
-</form>
+<div class="header">
+    <div>
+        <h1>
+            <a th:href="@{/}" class="blogName">Skwita Blog</a>
+        </h1>
+    </div>
+    <div class="buttons">
+        <a class="authThing button" th:if="${user == null}" th:href="@{/login}">Sign in</a>
+        <a class="authThing button" th:if="${user == null}" th:href="@{/register}">Sign up</a>
+        <p class="authThing username" th:if="${user != null}" th:text="${user.getUsername()}"></p>
+        <form th:if="${user != null}" th:action="@{/logout}" th:method="POST">
+            <input class="authThing button"  type="submit" value="logout">
+        </form>
+    </div>
+</div>
+
+<div class="formParent">
+    <form class="form" th:action="@{/new}" th:method="POST" th:object="${post}">
+        <div class="margin">
+            <p class="title">Create post</p>
+        </div>
+        <label class="text margin" for="title">Enter title</label>
+        <input class="textField margin" type="text" th:field="*{title}" id="title">
+
+        <p class="margin" style="color: red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+
+        <label class="text margin" for="text">Enter text</label>
+        <textarea class="textField margin" th:field="*{text}" id="text"></textarea>
+
+        <p class="margin" style="color: red" th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></p>
+
+        <div class="buttons margin">
+            <input class="button" type="submit" value="Create Post">
+            <a class="button cancel" th:href="@{/}" th:text="Cancel"></a>
+        </div>
+    </form>
+</div>
 </body>
 </html>
