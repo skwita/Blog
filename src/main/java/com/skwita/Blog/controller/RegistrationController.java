@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Objects;
 
@@ -34,7 +36,8 @@ public class RegistrationController {
     @PostMapping
     public String processRegistration(@ModelAttribute("user") @Valid User user,
                                       Errors errors,
-                                      Model model) {
+                                      Model model,
+                                      HttpServletRequest request) {
         if (errors.hasErrors()) {
             return "registration";
         }
@@ -47,7 +50,12 @@ public class RegistrationController {
             return "registration";
         }
         userService.registerDefaultUser(user);
-        return "login";
+        try {
+            request.login(user.getUsername(), user.getPasswordConfirm());
+            return "redirect:/";
+        } catch (ServletException exception) {
+            return "login";
+        }
     }
 
 }

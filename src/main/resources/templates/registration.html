@@ -19,6 +19,7 @@
       <p class="errors" th:if="${usernameTaken}">Unable to register. Username is already taken.</p>
       <p class="errors" th:if="${passwordNotMatchError}">Unable to register. Passwords do not match.</p>
       <button type="submit">register</button>
+      <p class="message">Already have an account? <a th:href="@{/login}">Log in</a></p>
     </form>
   </div>
 </div>
