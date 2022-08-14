@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>admin</title>
+</head>
+<body>
+<table border="1">
+    <caption>Users</caption>
+    <tr>
+        <th>UID</th> <th>UNAME</th> <th>ROLES</th>
+    </tr>
+    <tr th:each="user: ${users}">
+        <td th:text="${user.getId()}">UID</td>
+        <td th:text="${user.getUsername()}">UNAME</td>
+        <td th:text="${user.getRolesNames()}">ROLES</td>
+    </tr>
+</table>
+<table border="1">
+    <caption>Posts</caption>
+    <tr>
+        <th>PID</th> <th>PTITLE</th> <th>PTEXT</th> <th>UID</th> <th>UNAME</th>
+    </tr>
+    <tr th:each="post: ${posts}">
+        <td th:text="${post.getId()}">UID</td>
+        <td th:text="${post.getTitle()}">UID</td>
+        <td th:text="${post.getText()}">UNAME</td>
+        <td th:text="${post.getUser().getId()}">ROLES</td>
+        <td th:text="${post.getUser().getUsername()}">ROLES</td>
+    </tr>
+</table>
+</body>
+</html>
