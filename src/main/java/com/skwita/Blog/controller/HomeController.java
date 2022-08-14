@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController {
-    PostService postService;
+    private final PostService postService;
 
     @Autowired
     public HomeController (PostService postService) {

@@ -3,7 +3,6 @@ package com.skwita.Blog.controller;
 import com.skwita.Blog.entity.Post;
 import com.skwita.Blog.entity.User;
 import com.skwita.Blog.service.PostService;
-import com.skwita.Blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -19,13 +18,11 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/new")
 public class NewPostController {
-    PostService postService;
-    UserService userService;
+    private final PostService postService;
 
     @Autowired
-    public NewPostController(PostService postService, UserService userService) {
+    public NewPostController(PostService postService) {
         this.postService = postService;
-        this.userService = userService;
     }
 
     @GetMapping

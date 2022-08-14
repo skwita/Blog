@@ -15,9 +15,9 @@ import java.util.Set;
 
 @Service
 public class UserService implements UserDetailsService{
-    UserRepository userRepository;
-    RoleRepository roleRepository;
-    PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -54,5 +54,9 @@ public class UserService implements UserDetailsService{
 
     public Iterable<User> findAll() {
         return userRepository.findAll();
+    }
+
+    public User findById(long id) {
+        return userRepository.findById(id);
     }
 }

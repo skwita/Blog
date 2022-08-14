@@ -27,7 +27,7 @@
 <div class="formParent">
   <form class="form" th:action="@{/edit/{id}(id=${post.getId()})}" th:method="PATCH" th:object="${post}">
     <div class="margin">
-      <p class="title">Create post</p>
+      <p class="title">Edit post</p>
     </div>
     <label class="text margin" for="title">Enter title</label>
     <input class="textField margin" type="text" th:field="*{title}" id="title">

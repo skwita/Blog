@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class PostService {
 
-    PostRepository postRepository;
+    private final PostRepository postRepository;
 
     @Autowired
     public PostService(PostRepository postRepository) {
