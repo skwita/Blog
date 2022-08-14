@@ -31,10 +31,10 @@
     <p class="author field" th:text="${post.getUser().getUsername()}">USER</p>
     <p class="text field" th:text="${post.getText()}">TEXT</p>
     <div class="buttons">
-      <form th:if="${user != null && post.getUser().getId() == user.getId()}" th:action="@{/edit/{id}(id=*{post.getId()})}" th:method="GET">
+      <form th:if="${user != null && (post.getUser().getId() == user.getId() || #authorization.expression('hasRole(''ROLE_ADMIN'')'))}" th:action="@{/edit/{id}(id=*{post.getId()})}" th:method="GET">
         <input class="button" type="submit" value="Edit post">
       </form>
-      <form th:if="${user != null && post.getUser().getId()==user.getId()}" th:action="@{/delete/{id}(id=*{post.getId()})}" th:method="DELETE">
+      <form th:if="${user != null && (post.getUser().getId() == user.getId() || #authorization.expression('hasRole(''ROLE_ADMIN'')'))}" th:action="@{/delete/{id}(id=*{post.getId()})}" th:method="DELETE">
         <input class="button" type="submit" value="Delete post">
       </form>
     </div>

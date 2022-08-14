@@ -18,7 +18,7 @@ public class DeletePostController {
         this.postService = postService;
     }
 
-    @PreAuthorize("@postService.getPostById(#id).getUser().getUsername() == authentication.name")
+    @PreAuthorize("@postService.getPostById(#id).getUser().getUsername() == authentication.name  || hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public String deletePost(@PathVariable("id") long id) {
         postService.deletePostById(id);

@@ -21,7 +21,7 @@ public class EditPostController {
         this.postService = postService;
     }
 
-    @PreAuthorize("@postService.getPostById(#id).getUser().getUsername() == authentication.name")
+    @PreAuthorize("@postService.getPostById(#id).getUser().getUsername() == authentication.name || hasRole('ROLE_ADMIN')")
     @GetMapping("/{id}")
     public String editPost(@PathVariable("id") long id,
                            Model model){
