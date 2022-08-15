@@ -18,7 +18,7 @@
   <div class="buttons">
     <a class="authThing button" th:if="${user == null}" th:href="@{/login}">Sign in</a>
     <a class="authThing button" th:if="${user == null}" th:href="@{/register}">Sign up</a>
-    <p class="authThing username" th:if="${user != null}" th:text="${user.getUsername()}"></p>
+    <a class="authThing username" th:if="${user != null}" th:href="@{/user/{userID}(userID = ${user.getId()})}" th:text="${user.getUsername()}"></a>
     <form th:if="${user != null}" th:action="@{/logout}" th:method="POST">
       <input class="authThing button"  type="submit" value="logout">
     </form>
@@ -28,7 +28,7 @@
 <div class="postsContainer">
   <div class="post" th:each="post:${posts}">
     <p class="title field" th:text="${post.getTitle()}">TITLE</p>
-    <p class="author field" th:text="${post.getUser().getUsername()}">USER</p>
+    <a class="author field" th:text="${post.getUser().getUsername()}" th:href="@{/user/{userID}(userID = ${post.getUser().getId()})}">USER</a>
     <p class="text field" th:text="${post.getText()}">TEXT</p>
     <div class="buttons">
       <form th:if="${user != null && (post.getUser().getId() == user.getId() || #authorization.expression('hasRole(''ROLE_ADMIN'')'))}" th:action="@{/edit/{id}(id=*{post.getId()})}" th:method="GET">

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${author.getUsername()}">Title</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>
+      <a th:href="@{/}" class="blogName">Skwita Blog</a>
+    </h1>
+  </div>
+  <div class="buttons">
+    <a class="authThing button" th:if="${user == null}" th:href="@{/login}">Sign in</a>
+    <a class="authThing button" th:if="${user == null}" th:href="@{/register}">Sign up</a>
+    <p class="authThing username" th:if="${user != null}" th:text="${user.getUsername()}"></p>
+    <form th:if="${user != null}" th:action="@{/logout}" th:method="POST">
+      <input class="authThing button"  type="submit" value="logout">
+    </form>
+  </div>
+</div>
+<div>
+  <div class="postsContainer">
+    <div class="usernameBig">
+      <h1 th:text="${author.getUsername()}"></h1>
+    </div>
+    <div class="post" th:each="post:${posts}">
+      <p class="title field" th:text="${post.getTitle()}">TITLE</p>
+      <p class="author field" th:text="${post.getUser().getUsername()}">USER</p>
+      <p class="text field" th:text="${post.getText()}">TEXT</p>
+      <div class="buttons">
+        <form th:if="${user != null && (post.getUser().getId() == user.getId() || #authorization.expression('hasRole(''ROLE_ADMIN'')'))}" th:action="@{/edit/{id}(id=*{post.getId()})}" th:method="GET">
+          <input class="button" type="submit" value="Edit post">
+        </form>
+        <form th:if="${user != null && (post.getUser().getId() == user.getId() || #authorization.expression('hasRole(''ROLE_ADMIN'')'))}" th:action="@{/delete/{id}(id=*{post.getId()})}" th:method="DELETE">
+          <input class="button" type="submit" value="Delete post">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
