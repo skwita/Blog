@@ -8,7 +8,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Setter
@@ -34,6 +36,9 @@ public class Post {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<User> userLikes;
 
+    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
+    private List<Comment> comments;
+
     public Post(String title, String text, User user) {
         this.title = title;
         this.text = text;
@@ -42,5 +47,9 @@ public class Post {
 
     public long getId() {
         return id;
+    }
+
+    public Set<Long> getUserLikesIds() {
+        return this.userLikes.stream().map(User::getId).collect(Collectors.toSet());
     }
 }

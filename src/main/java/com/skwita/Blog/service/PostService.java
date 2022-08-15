@@ -1,7 +1,9 @@
 package com.skwita.Blog.service;
 
+import com.skwita.Blog.entity.Comment;
 import com.skwita.Blog.entity.Post;
 import com.skwita.Blog.entity.User;
+import com.skwita.Blog.repository.CommentRepository;
 import com.skwita.Blog.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,11 +14,12 @@ import java.util.Set;
 public class PostService {
     private final PostRepository postRepository;
     private final UserService userService;
-
+    private final CommentRepository commentRepository;
     @Autowired
-    public PostService(PostRepository postRepository, UserService userService) {
+    public PostService(PostRepository postRepository, UserService userService, CommentRepository commentRepository) {
         this.postRepository = postRepository;
         this.userService = userService;
+        this.commentRepository = commentRepository;
     }
 
     public Post getPostById(long id) {
@@ -48,5 +51,17 @@ public class PostService {
         }
         postToUpdate.setUserLikes(postLikes);
         postRepository.save(postToUpdate);
+    }
+
+    public void saveComment(Comment comment) {
+        commentRepository.save(comment);
+    }
+
+    public void deleteCommentById(Long id) {
+        commentRepository.deleteById(id);
+    }
+
+    public Comment getCommentById(Long id) {
+        return commentRepository.getCommentById(id);
     }
 }

@@ -1,5 +1,6 @@
 package com.skwita.Blog.controller;
 
+import com.skwita.Blog.entity.Comment;
 import com.skwita.Blog.entity.User;
 import com.skwita.Blog.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +8,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
 public class HomeController {
@@ -27,10 +27,8 @@ public class HomeController {
         return "home";
     }
 
-    @PatchMapping("/{id}/like")
-    public String like(@PathVariable("id") Long id,
-                       @AuthenticationPrincipal User user) {
-        postService.changeLikes(id, user);
-        return "redirect:/";
+    @ModelAttribute(name = "comment")
+    public Comment order() {
+        return new Comment();
     }
 }

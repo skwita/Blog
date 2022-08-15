@@ -16,37 +16,99 @@
     </h1>
   </div>
   <div class="buttons">
-    <a class="authThing button" th:if="${user == null}" th:href="@{/login}">Sign in</a>
-    <a class="authThing button" th:if="${user == null}" th:href="@{/register}">Sign up</a>
-    <a class="authThing username" th:if="${user != null}" th:href="@{/user/{userID}(userID = ${user.getId()})}" th:text="${user.getUsername()}"></a>
-    <form th:if="${user != null}" th:action="@{/logout}" th:method="POST">
-      <input class="authThing button"  type="submit" value="logout">
+    <a class="authThing button"
+       th:if="${user == null}"
+       th:href="@{/login}">Sign in</a>
+    <a class="authThing button"
+       th:if="${user == null}"
+       th:href="@{/register}">Sign up</a>
+    <a class="authThing username"
+       th:if="${user != null}"
+       th:href="@{/user/{userID}(userID = ${user.getId()})}"
+       th:text="${user.getUsername()}"></a>
+    <form th:if="${user != null}"
+          th:action="@{/logout}"
+          th:method="POST">
+      <input class="authThing button" type="submit" value="logout">
     </form>
   </div>
 </div>
 
 <div class="postsContainer">
-  <div class="post" th:each="post:${posts}">
-    <p class="title field" th:text="${post.getTitle()}">TITLE</p>
-    <a class="author field" th:text="${post.getUser().getUsername()}" th:href="@{/user/{userID}(userID = ${post.getUser().getId()})}">USER</a>
-    <p class="text field" th:text="${post.getText()}">TEXT</p>
-    <p th:text="${post.getUserLikes().size()}"></p>
-    <form th:if="${user != null}" th:action="@{/{id}/like(id=${post.getId()})}" th:method="PATCH">
-      <input class="authThing button"  type="submit" value="like">
-    </form>
+  <div class="post"
+       th:each="post:${posts}"
+       th:classappend="${post.getUser().getRolesNames().contains('ROLE_ADMIN')} ? adminPost">
+    <p class="title field"
+       th:text="${post.getTitle()}">TITLE</p>
+    <a class="author field"
+       th:text="${post.getUser().getUsername()}"
+       th:href="@{/user/{userID}(userID = ${post.getUser().getId()})}">USER</a>
+    <p class="text field"
+       th:text="${post.getText()}">TEXT</p>
+
+    <div class="commentsContainer">
+      <div class="comment"
+           th:each="comment:${post.getComments()}"
+           th:classappend="${comment.getUser().getRolesNames().contains('ROLE_ADMIN')} ? adminComment">
+        <p class="author field"
+           th:text="${comment.getUser().getUsername()}"></p>
+        <p class="text field commentText"
+           th:text="${comment.getText()}"></p>
+        <form th:if="${user != null &&
+                            (comment.getUser().getId() == user.getId() ||
+                            #authorization.expression('hasRole(''ROLE_ADMIN'')') ||
+                            post.getUser().getId() == user.getId())}"
+              th:action="@{/post/{postId}/comment/delete/{commentId}(postId=${post.getId()}, commentId=${comment.getId()})}"
+              th:method="DELETE">
+          <input class="button" type="submit" value="delete">
+        </form>
+      </div>
+      <form class="commentField"
+            th:if="${user != null}"
+            th:action="@{/post/{id}/comment(id=${post.getId()})}"
+            th:method="POST"
+            th:object="${comment}">
+        <input class="commentInput" type="text" th:field="*{text}">
+        <input class="button" type="submit" value="comment">
+        <p class="margin" style="color: red" th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></p>
+      </form>
+    </div>
+
     <div class="buttons">
-      <form th:if="${user != null && (post.getUser().getId() == user.getId() || #authorization.expression('hasRole(''ROLE_ADMIN'')'))}" th:action="@{/edit/{id}(id=*{post.getId()})}" th:method="GET">
-        <input class="button" type="submit" value="Edit post">
-      </form>
-      <form th:if="${user != null && (post.getUser().getId() == user.getId() || #authorization.expression('hasRole(''ROLE_ADMIN'')'))}" th:action="@{/delete/{id}(id=*{post.getId()})}" th:method="DELETE">
-        <input class="button" type="submit" value="Delete post">
-      </form>
+      <div class="buttonCouple">
+        <form th:if="${user != null &&
+                       (post.getUser().getId() == user.getId() ||
+                       #authorization.expression('hasRole(''ROLE_ADMIN'')'))}"
+              th:action="@{/edit/{id}(id=*{post.getId()})}"
+              th:method="GET">
+          <input class="button" type="submit" value="Edit post">
+        </form>
+        <form th:if="${user != null &&
+                      (post.getUser().getId() == user.getId() ||
+                      #authorization.expression('hasRole(''ROLE_ADMIN'')'))}"
+              th:action="@{/delete/{id}(id=*{post.getId()})}"
+              th:method="DELETE">
+          <input class="button" type="submit" value="Delete post">
+        </form>
+      </div>
+      <div class="buttonCouple">
+        <p class="numLikes"
+           th:text="${post.getUserLikes().size()}"></p>
+        <form class="likeForm"
+              th:if="${user != null}"
+              th:action="@{post/{id}/like(id=${post.getId()})}"
+              th:method="PATCH">
+          <input class="like" type="submit" value="" th:classappend="${post.getUserLikesIds().contains(user.getId())} ? likePressed">
+        </form>
+      </div>
     </div>
   </div>
 </div>
 
 <div class="postCreation">
-  <form th:if="${user != null}" th:action="@{/new}" th:method="GET">
+  <form th:if="${user != null}"
+        th:action="@{/new}"
+        th:method="GET">
     <input class="button" type="submit" value="New Post">
   </form>
 </div>
