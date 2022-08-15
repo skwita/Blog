@@ -1,9 +1,12 @@
 package com.skwita.Blog.service;
 
 import com.skwita.Blog.entity.Post;
+import com.skwita.Blog.entity.User;
 import com.skwita.Blog.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 @Service
 public class PostService {
@@ -33,5 +36,17 @@ public class PostService {
     }
     public Iterable<Post> findAllByUserId(long id) {
         return postRepository.findAllByUser(userService.findById(id));
+    }
+    public void changeLikes(long id, User user) {
+        Post postToUpdate = postRepository.getPostById(id);
+        Set<User> postLikes = postToUpdate.getUserLikes();
+        User userThis = userService.findById(user.getId());
+        if (!postLikes.contains(userThis)) {
+            postLikes.add(userThis);
+        } else {
+            postLikes.remove(userThis);
+        }
+        postToUpdate.setUserLikes(postLikes);
+        postRepository.save(postToUpdate);
     }
 }

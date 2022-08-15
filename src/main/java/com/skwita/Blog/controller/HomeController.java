@@ -7,6 +7,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class HomeController {
@@ -23,5 +25,12 @@ public class HomeController {
         model.addAttribute("user", user);
         model.addAttribute("posts", postService.getAllPosts());
         return "home";
+    }
+
+    @PatchMapping("/{id}/like")
+    public String like(@PathVariable("id") Long id,
+                       @AuthenticationPrincipal User user) {
+        postService.changeLikes(id, user);
+        return "redirect:/";
     }
 }

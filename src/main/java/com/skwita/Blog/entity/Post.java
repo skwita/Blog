@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Entity
 @Setter
@@ -29,6 +30,9 @@ public class Post {
     //@NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<User> userLikes;
 
     public Post(String title, String text, User user) {
         this.title = title;

@@ -30,6 +30,10 @@
     <p class="title field" th:text="${post.getTitle()}">TITLE</p>
     <a class="author field" th:text="${post.getUser().getUsername()}" th:href="@{/user/{userID}(userID = ${post.getUser().getId()})}">USER</a>
     <p class="text field" th:text="${post.getText()}">TEXT</p>
+    <p th:text="${post.getUserLikes().size()}"></p>
+    <form th:if="${user != null}" th:action="@{/{id}/like(id=${post.getId()})}" th:method="PATCH">
+      <input class="authThing button"  type="submit" value="like">
+    </form>
     <div class="buttons">
       <form th:if="${user != null && (post.getUser().getId() == user.getId() || #authorization.expression('hasRole(''ROLE_ADMIN'')'))}" th:action="@{/edit/{id}(id=*{post.getId()})}" th:method="GET">
         <input class="button" type="submit" value="Edit post">
