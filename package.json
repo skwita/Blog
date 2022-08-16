@@ -1,0 +1,9 @@
+{
+  "name": "Blog",
+  "version": "1.0.0",
+  "dependencies": {
+    "rsocket-core": "^1.0.0-alpha.3",
+    "rsocket-websocket-client": "^1.0.0-alpha.3",
+    "ws": "^8.8.1"
+  }
+}

@@ -4,12 +4,14 @@ import com.skwita.Blog.entity.Comment;
 import com.skwita.Blog.entity.User;
 import com.skwita.Blog.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
 
@@ -23,11 +25,19 @@ public class PostController {
         this.postService = postService;
     }
 
-    @PatchMapping("/{id}/like")
-    public String like(@PathVariable("id") Long id,
-                       @AuthenticationPrincipal User user) {
-        postService.changeLikes(id, user);
-        return "redirect:/";
+//    @PatchMapping("/{id}/like")
+//    public String like(@PathVariable("id") Long id,
+//                       @AuthenticationPrincipal User user) {
+//        postService.changeLikes(id, user);
+//        return "redirect:/";
+//    }
+
+    @MessageMapping("/{id}/like")
+    public Mono<Integer> handleLike(Mono<Integer> likeMono,
+                                    @AuthenticationPrincipal User user) {
+        return likeMono.doOnNext(like ->
+              postService.changeLikes(like, user)
+        ).map(like -> postService.getPostById(like).getUserLikes().size());
     }
 
     @PostMapping("/{id}/comment")

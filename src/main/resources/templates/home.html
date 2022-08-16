@@ -94,12 +94,11 @@
       <div class="buttonCouple">
         <p class="numLikes"
            th:text="${post.getUserLikes().size()}"></p>
-        <form class="likeForm"
-              th:if="${user != null}"
-              th:action="@{post/{id}/like(id=${post.getId()})}"
-              th:method="PATCH">
-          <input class="like" type="submit" value="" th:classappend="${post.getUserLikesIds().contains(user.getId())} ? likePressed">
-        </form>
+        <!--              th:action="@{post/{id}/like(id=${post.getId()})}"-->
+        <div class="likeForm">
+          <button class="like" onclick="like(${post.getId()})" value="" th:classappend="${post.getUserLikesIds().contains(user.getId())} ? likePressed"></button>
+        </div>
+
       </div>
     </div>
   </div>
@@ -112,5 +111,47 @@
     <input class="button" type="submit" value="New Post">
   </form>
 </div>
+<script th:src="@{js/likeScript.js}">
+  const { RSocketClient } = require('rsocket-core');
+  const RSocketWebsocketClient = require('rsocket-websocket-client').default;
+  const WebSocket = require('ws');
+
+  async function createClient(options) {
+    const transportOptions = {
+      url: 'ws://`${options.host}`:${options.port}',
+      // In non-browser environments we need to provide a
+      // factory method which can return an instance of a
+      // websocket object. Browsers however, have this
+      // functionality built-in.
+      wsCreator: (url) => {
+        return new WebSocket(url);
+      }
+    };
+    const setupOptions = {
+      keepAlive: 1000000,
+      lifetime: 100000,
+      dataMimeType: 'text/plain',
+      metadataMimeType: 'text/plain'
+    };
+    const transport = new RSocketWebsocketClient(transportOptions);
+    const client = new RSocketClient({ setup: setupOptions, transport });
+    return await client.connect();
+  }
+
+  async function run() {
+    const rsocket = await createClient({
+      host: '127.0.0.1',
+      port: 7000,
+    });
+  }
+
+  async function like(postId) {
+    const rsocket = await createClient({
+      host: '127.0.0.1',
+      port: 7000,
+    });
+    rsocket.requestResponse(postId);
+  }
+</script>
 </body>
 </html>
