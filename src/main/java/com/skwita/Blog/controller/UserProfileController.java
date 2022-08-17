@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/user")
-public class ProfileController {
+public class UserProfileController {
     private final UserService userService;
     private final PostService postService;
 
     @Autowired
-    public ProfileController(UserService userService, PostService postService) {
+    public UserProfileController(UserService userService, PostService postService) {
         this.userService = userService;
         this.postService = postService;
     }
