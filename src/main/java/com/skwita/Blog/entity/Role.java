@@ -1,5 +1,7 @@
 package com.skwita.Blog.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,5 +33,10 @@ public class Role implements GrantedAuthority {
     public Role(Long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    @JsonCreator
+    public Role (@JsonProperty("role_id") Integer role_id) {
+        this.id = Long.valueOf(role_id);
     }
 }

@@ -6,152 +6,153 @@
     <meta charset="UTF-8">
     <title>Blog</title>
     <link rel="stylesheet" th:href="@{/css/home.css}">
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="/js/likeScript.js"></script>
 </head>
 <body>
 
 <div class="header">
-  <div>
-    <h1>
-      <a th:href="@{/}" class="blogName">Skwita Blog</a>
-    </h1>
-  </div>
-  <div class="buttons">
-    <a class="authThing button"
-       th:if="${user == null}"
-       th:href="@{/login}">Sign in</a>
-    <a class="authThing button"
-       th:if="${user == null}"
-       th:href="@{/register}">Sign up</a>
-    <a class="authThing username"
-       th:if="${user != null}"
-       th:href="@{/user/{userID}(userID = ${user.getId()})}"
-       th:text="${user.getUsername()}"></a>
-    <form th:if="${user != null}"
-          th:action="@{/logout}"
-          th:method="POST">
-      <input class="authThing button" type="submit" value="logout">
-    </form>
-  </div>
+    <div>
+        <h1>
+            <a th:href="@{/}" class="blogName">Skwita Blog</a>
+        </h1>
+    </div>
+    <div class="buttons">
+        <a class="authThing button"
+           th:if="${user == null}"
+           th:href="@{/login}">Sign in</a>
+        <a class="authThing button"
+           th:if="${user == null}"
+           th:href="@{/register}">Sign up</a>
+        <a class="authThing username"
+           th:if="${user != null}"
+           th:href="@{/user/{userID}(userID = ${user.getId()})}"
+           th:text="${user.getUsername()}"></a>
+        <form th:if="${user != null}"
+              th:action="@{/logout}"
+              th:method="POST">
+            <input class="authThing button" type="submit" value="logout">
+        </form>
+    </div>
 </div>
 
 <div class="postsContainer">
-  <div class="post"
-       th:each="post:${posts}"
-       th:classappend="${post.getUser().getRolesNames().contains('ROLE_ADMIN')} ? adminPost">
-    <p class="title field"
-       th:text="${post.getTitle()}">TITLE</p>
-    <a class="author field"
-       th:text="${post.getUser().getUsername()}"
-       th:href="@{/user/{userID}(userID = ${post.getUser().getId()})}">USER</a>
-    <p class="text field"
-       th:text="${post.getText()}">TEXT</p>
+    <div class="post"
+         th:each="post:${posts}"
+         th:classappend="${post.getUser().getRolesNames().contains('ROLE_ADMIN')} ? adminPost">
+        <p class="title field"
+           th:text="${post.getTitle()}">TITLE</p>
+        <a class="author field"
+           th:text="${post.getUser().getUsername()}"
+           th:href="@{/user/{userID}(userID = ${post.getUser().getId()})}">USER</a>
+        <p class="text field"
+           th:text="${post.getText()}">TEXT</p>
 
-    <div class="commentsContainer">
-      <div class="comment"
-           th:each="comment:${post.getComments()}"
-           th:classappend="${comment.getUser().getRolesNames().contains('ROLE_ADMIN')} ? adminComment">
-        <p class="author field"
-           th:text="${comment.getUser().getUsername()}"></p>
-        <p class="text field commentText"
-           th:text="${comment.getText()}"></p>
-        <form th:if="${user != null &&
+        <div class="commentsContainer">
+            <div class="comment"
+                 th:each="comment:${post.getComments()}"
+                 th:classappend="${comment.getUser().getRolesNames().contains('ROLE_ADMIN')} ? adminComment">
+                <p class="author field"
+                   th:text="${comment.getUser().getUsername()}"></p>
+                <p class="text field commentText"
+                   th:text="${comment.getText()}"></p>
+                <form th:if="${user != null &&
                             (comment.getUser().getId() == user.getId() ||
                             #authorization.expression('hasRole(''ROLE_ADMIN'')') ||
                             post.getUser().getId() == user.getId())}"
-              th:action="@{/post/{postId}/comment/delete/{commentId}(postId=${post.getId()}, commentId=${comment.getId()})}"
-              th:method="DELETE">
-          <input class="button" type="submit" value="delete">
-        </form>
-      </div>
-      <form class="commentField"
-            th:if="${user != null}"
-            th:action="@{/post/{id}/comment(id=${post.getId()})}"
-            th:method="POST"
-            th:object="${comment}">
-        <input class="commentInput" type="text" th:field="*{text}">
-        <input class="button" type="submit" value="comment">
-        <p class="margin" style="color: red" th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></p>
-      </form>
-    </div>
-
-    <div class="buttons">
-      <div class="buttonCouple">
-        <form th:if="${user != null &&
-                       (post.getUser().getId() == user.getId() ||
-                       #authorization.expression('hasRole(''ROLE_ADMIN'')'))}"
-              th:action="@{/edit/{id}(id=*{post.getId()})}"
-              th:method="GET">
-          <input class="button" type="submit" value="Edit post">
-        </form>
-        <form th:if="${user != null &&
-                      (post.getUser().getId() == user.getId() ||
-                      #authorization.expression('hasRole(''ROLE_ADMIN'')'))}"
-              th:action="@{/delete/{id}(id=*{post.getId()})}"
-              th:method="DELETE">
-          <input class="button" type="submit" value="Delete post">
-        </form>
-      </div>
-      <div class="buttonCouple">
-        <p class="numLikes"
-           th:text="${post.getUserLikes().size()}"></p>
-        <!--              th:action="@{post/{id}/like(id=${post.getId()})}"-->
-        <div class="likeForm">
-          <button class="like" onclick="like(${post.getId()})" value="" th:classappend="${post.getUserLikesIds().contains(user.getId())} ? likePressed"></button>
+                      th:action="@{/post/{postId}/comment/delete/{commentId}(postId=${post.getId()}, commentId=${comment.getId()})}"
+                      th:method="DELETE">
+                    <input class="button" type="submit" value="delete">
+                </form>
+            </div>
+            <form class="commentField"
+                  th:if="${user != null}"
+                  th:action="@{/post/{id}/comment(id=${post.getId()})}"
+                  th:method="POST"
+                  th:object="${comment}">
+                <input class="commentInput" type="text" th:field="*{text}">
+                <input class="button" type="submit" value="comment">
+                <p class="margin" style="color: red" th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></p>
+            </form>
         </div>
 
-      </div>
+        <div class="buttons">
+            <div class="buttonCouple">
+                <form th:if="${user != null &&
+                       (post.getUser().getId() == user.getId() ||
+                       #authorization.expression('hasRole(''ROLE_ADMIN'')'))}"
+                      th:action="@{/edit/{id}(id=*{post.getId()})}"
+                      th:method="GET">
+                    <input class="button" type="submit" value="Edit post">
+                </form>
+                <form th:if="${user != null &&
+                      (post.getUser().getId() == user.getId() ||
+                      #authorization.expression('hasRole(''ROLE_ADMIN'')'))}"
+                      th:action="@{/delete/{id}(id=*{post.getId()})}"
+                      th:method="DELETE">
+                    <input class="button" type="submit" value="Delete post">
+                </form>
+            </div>
+            <div class="buttonCouple">
+                <p class="numLikes"
+                   th:text="${post.getUserLikes().size()}"></p>
+                <!--              th:action="@{post/{id}/like(id=${post.getId()})}"-->
+                <div class="likeForm">
+                    <button class="like" value="" th:classappend="${user != null && post.getUserLikesIds().contains(user.getId())} ? likePressed"></button>
+                </div>
+
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <div class="postCreation">
-  <form th:if="${user != null}"
-        th:action="@{/new}"
-        th:method="GET">
-    <input class="button" type="submit" value="New Post">
-  </form>
+    <form th:if="${user != null}"
+          th:action="@{/new}"
+          th:method="GET">
+        <input class="button" type="submit" value="New Post">
+    </form>
 </div>
-<script th:src="@{js/likeScript.js}">
-  const { RSocketClient } = require('rsocket-core');
-  const RSocketWebsocketClient = require('rsocket-websocket-client').default;
-  const WebSocket = require('ws');
-
-  async function createClient(options) {
-    const transportOptions = {
-      url: 'ws://`${options.host}`:${options.port}',
-      // In non-browser environments we need to provide a
-      // factory method which can return an instance of a
-      // websocket object. Browsers however, have this
-      // functionality built-in.
-      wsCreator: (url) => {
-        return new WebSocket(url);
-      }
-    };
-    const setupOptions = {
-      keepAlive: 1000000,
-      lifetime: 100000,
-      dataMimeType: 'text/plain',
-      metadataMimeType: 'text/plain'
-    };
-    const transport = new RSocketWebsocketClient(transportOptions);
-    const client = new RSocketClient({ setup: setupOptions, transport });
-    return await client.connect();
-  }
-
-  async function run() {
-    const rsocket = await createClient({
-      host: '127.0.0.1',
-      port: 7000,
-    });
-  }
-
-  async function like(postId) {
-    const rsocket = await createClient({
-      host: '127.0.0.1',
-      port: 7000,
-    });
-    rsocket.requestResponse(postId);
-  }
-</script>
+<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
+    enabled. Please enable
+    Javascript and reload this page!</h2></noscript>
+<div id="main-content" class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="connect">WebSocket connection:</label>
+                    <button id="connect" class="btn btn-default" type="submit">Connect</button>
+                    <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="name">What is your name?</label>
+                    <input type="text" id="name" class="form-control" placeholder="Your name here...">
+                </div>
+                <button id="send" class="btn btn-default" type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table id="conversation" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Greetings</th>
+                </tr>
+                </thead>
+                <tbody id="greetings">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 </body>
 </html>
