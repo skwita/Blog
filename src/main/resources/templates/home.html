@@ -94,6 +94,11 @@
       <div class="buttonCouple">
         <p class="numLikes"
            th:text="${post.getUserLikes().size()}"></p>
+        <div class="likeForm"
+             th:if="${user == null}">
+          <div class="like">
+          </div>
+        </div>
         <form class="likeForm"
               th:if="${user != null}"
               th:action="@{post/{id}/like(id=${post.getId()})}"

@@ -28,7 +28,7 @@ public class HomeController {
     }
 
     @ModelAttribute(name = "comment")
-    public Comment order() {
+    public Comment comment() {
         return new Comment();
     }
 }

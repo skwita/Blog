@@ -44,10 +44,6 @@ public class UserService implements UserDetailsService{
         userRepository.save(user);
     }
 
-    public void deleteUserById(long id) {
-        userRepository.deleteById(id);
-    }
-
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
