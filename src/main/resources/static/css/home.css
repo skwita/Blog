@@ -171,3 +171,7 @@ body {
     width: 100%;
     line-break: anywhere;
 }
+
+.newLine {
+    white-space: pre-line
+}

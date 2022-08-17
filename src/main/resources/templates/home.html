@@ -43,8 +43,8 @@
     <a class="author field"
        th:text="${post.getUser().getUsername()}"
        th:href="@{/user/{userID}(userID = ${post.getUser().getId()})}">USER</a>
-    <p class="text field"
-       th:text="${post.getText()}">TEXT</p>
+    <span class="text field newLine"
+       th:text="${post.getText()}">TEXT</span>
 
     <div class="commentsContainer">
       <div class="comment"
