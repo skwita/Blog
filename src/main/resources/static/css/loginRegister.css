@@ -1,5 +1,28 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
+
+.theme-green {
+    --header-color: #77b856;
+    --button-idle: #4CAF50;
+    --button-hover: #43A047;
+    --button-active: #4CAF50;
+}
+
+.theme-purple {
+    --header-color: #b85691;
+    --button-idle: #af4c90;
+    --button-hover: #a04398;
+    --button-active: #a54caf;
+}
+
+.theme-pink {
+    --header-color: #f4a7c1;
+    --button-idle: #f7ccdb;
+    --button-hover: #f5c1d3;
+    --button-active: #f7b4cb;
+}
+
+
 .login-page {
     width: 360px;
     padding: 8% 0 0;
@@ -40,7 +63,7 @@
     font-family: "Roboto", sans-serif;
     text-transform: uppercase;
     outline: 0;
-    background: #4CAF50;
+    background: var(--button-idle);
     width: 100%;
     border: 0;
     padding: 15px;
@@ -51,7 +74,7 @@
     cursor: pointer;
 }
 .form button:hover,.form button:active,.form button:focus {
-    background: #43A047;
+    background: var(--button-hover);
 }
 .form .message {
     margin: 15px 0 0;
@@ -59,7 +82,7 @@
     font-size: 12px;
 }
 .form .message a {
-    color: #4CAF50;
+    color: var(--button-active);
     text-decoration: none;
 }
 .form .register-form {
@@ -100,8 +123,8 @@
 }
 body {
     background: #76b852; /* fallback for old browsers */
-    background: rgb(141,194,111);
-    background: linear-gradient(90deg, rgba(141,194,111,1) 0%, rgba(118,184,82,1) 50%);
+    background: var(--header-color);
+    background: linear-gradient(90deg, var(--header-color) 0%, var(--button-idle) 50%);
     font-family: "Roboto", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

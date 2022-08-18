@@ -46,4 +46,15 @@
     </form>
 </div>
 </body>
+<script>
+    (function () {
+        if (localStorage.getItem('theme') === 'theme-green') {
+            localStorage.setItem('theme', 'theme-green');
+            document.documentElement.className = 'theme-green';
+        } else {
+            localStorage.setItem('theme', 'theme-pink');
+            document.documentElement.className = 'theme-pink';
+        }
+    })();
+</script>
 </html>

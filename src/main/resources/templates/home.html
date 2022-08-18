@@ -16,6 +16,7 @@
     </h1>
   </div>
   <div class="buttons">
+    <button class="authThing button" id="switch" onclick="toggleTheme()">Switch theme</button>
     <a class="authThing button"
        th:if="${user == null}"
        th:href="@{/login}">Sign in</a>
@@ -118,4 +119,28 @@
   </form>
 </div>
 </body>
+<script>
+  function setTheme(themeName) {
+    localStorage.setItem('theme', themeName);
+    document.documentElement.className = themeName;
+  }
+
+  // function to toggle between light and dark theme
+  function toggleTheme() {
+    if (localStorage.getItem('theme') === 'theme-pink') {
+      setTheme('theme-green');
+    } else {
+      setTheme('theme-pink');
+    }
+  }
+
+  // Immediately invoked function to set the theme on initial load
+  (function () {
+    if (localStorage.getItem('theme') === 'theme-green') {
+      setTheme('theme-green');
+    } else {
+      setTheme('theme-pink');
+    }
+  })();
+</script>
 </html>
