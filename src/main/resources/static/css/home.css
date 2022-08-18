@@ -23,6 +23,9 @@ body {
 
 .postsContainer {
     padding-top: 55px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .authThing {
@@ -38,6 +41,7 @@ body {
     display: flex;
     flex-direction: column;
     padding: 10px;
+    width: 750px;
 }
 
 .title {
