@@ -40,7 +40,7 @@ public class PostService {
     public Iterable<Post> findAllByUserId(long id) {
         return postRepository.findAllByUser(userService.findById(id));
     }
-    public void changeLikes(long id, User user) {
+    public int changeLikes(long id, User user) {
         Post postToUpdate = postRepository.getPostById(id);
         Set<User> postLikes = postToUpdate.getUserLikes();
         User userThis = userService.findById(user.getId());
@@ -51,6 +51,7 @@ public class PostService {
         }
         postToUpdate.setUserLikes(postLikes);
         postRepository.save(postToUpdate);
+        return postToUpdate.getUserLikes().size();
     }
 
     public void saveComment(Comment comment) {

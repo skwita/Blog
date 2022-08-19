@@ -32,13 +32,6 @@ public class PostController {
 //        return "redirect:/";
 //    }
 
-    @MessageMapping("/{id}/like")
-    public Mono<Integer> handleLike(Mono<Integer> likeMono,
-                                    @AuthenticationPrincipal User user) {
-        return likeMono.doOnNext(like ->
-              postService.changeLikes(like, user)
-        ).map(like -> postService.getPostById(like).getUserLikes().size());
-    }
 
     @PostMapping("/{id}/comment")
     public String comment(@PathVariable("id") Long id,
